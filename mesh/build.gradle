@@ -73,11 +73,30 @@ dependencies {
 // === Maven Central configuration ===
 // The following file exists only when Android BLE Library project is opened, but not
 // when the module is loaded to a different project.
-if (rootProject.file('gradle/publish-module.gradle').exists()) {
-    ext {
-        POM_ARTIFACT_ID="mesh"
-        POM_NAME="A Bluetooth Mesh library for Android"
-        POM_PACKAGING="aar"
+//if (rootProject.file('gradle/publish-module.gradle').exists()) {
+//    ext {
+//        POM_ARTIFACT_ID="mesh"
+//        POM_NAME="A Bluetooth Mesh library for Android"
+//        POM_PACKAGING="aar"
+//    }
+//    apply from: rootProject.file('gradle/publish-module.gradle')
+//}
+
+afterEvaluate {
+    publishing {
+        publications {
+            mesh(MavenPublication) {
+                from components.release
+                groupId = findProperty("GROUP")
+                artifactId = 'mesh'
+                version = findProperty("VERSION_NAME")
+                artifact(androidSourcesJar)
+            }
+        }
     }
-    apply from: rootProject.file('gradle/publish-module.gradle')
+}
+
+task androidSourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    from android.sourceSets.main.java.srcDirs
 }
