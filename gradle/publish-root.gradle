@@ -9,14 +9,14 @@ if (secretPropsFile.exists()) {
 
 // Set up Sonatype repository
 
-nexusPublishing {
-
-    repositories {
-        sonatype {
-            stagingProfileId = System.env.SONATYPE_STATING_PROFILE_ID
-            username = System.env.OSSR_USERNAME
-            password = System.env.OSSR_PASSWORD
-        }
-    }
-
-}
+//nexusPublishing {
+//
+//    repositories {
+//        sonatype {
+//            stagingProfileId = System.env.SONATYPE_STATING_PROFILE_ID
+//            username = System.env.OSSR_USERNAME
+//            password = System.env.OSSR_PASSWORD
+//        }
+//    }
+//
+//}
