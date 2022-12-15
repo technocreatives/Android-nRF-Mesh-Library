@@ -48,6 +48,7 @@ import no.nordicsemi.android.mesh.data.GroupsDao;
 import no.nordicsemi.android.mesh.data.MeshNetworkDao;
 import no.nordicsemi.android.mesh.data.NetworkKeyDao;
 import no.nordicsemi.android.mesh.data.NetworkKeysDao;
+import no.nordicsemi.android.mesh.data.NodeSequenceNumberRow;
 import no.nordicsemi.android.mesh.data.ProvisionedMeshNodeDao;
 import no.nordicsemi.android.mesh.data.ProvisionedMeshNodesDao;
 import no.nordicsemi.android.mesh.data.ProvisionerDao;
@@ -940,12 +941,12 @@ public class MeshManagerApi implements MeshMngrApi {
             importedNetwork.setCallbacks(callbacks);
             final MeshNetwork network = mMeshNetworkDb.getMeshNetwork(mMeshNetworkDao, importedNetwork.getMeshUUID());
             if (network != null) {
-                final List<ProvisionedMeshNode> nodes = mMeshNetworkDb.getNodes(mProvisionedNodesDao, importedNetwork.getMeshUUID());
+                final List<NodeSequenceNumberRow> nodeSequenceNumberRows = mMeshNetworkDb.getSequenceNumberForNodes(mProvisionedNodesDao, importedNetwork.getMeshUUID());
                 importedNetwork.unicastAddress = network.unicastAddress;
                 for (ProvisionedMeshNode meshNode : importedNetwork.getNodes()) {
-                    for (ProvisionedMeshNode node : nodes) {
-                        if (node.getUuid().equalsIgnoreCase(meshNode.getUuid())) {
-                            meshNode.setSequenceNumber(node.getSequenceNumber());
+                    for (NodeSequenceNumberRow nodeRow : nodeSequenceNumberRows) {
+                        if (nodeRow.getUuid().equalsIgnoreCase(meshNode.getUuid())) {
+                            meshNode.setSequenceNumber(nodeRow.getSequenceNumber());
                         }
                     }
                 }

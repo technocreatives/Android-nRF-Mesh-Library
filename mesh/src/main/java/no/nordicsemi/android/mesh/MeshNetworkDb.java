@@ -5,11 +5,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import no.nordicsemi.android.mesh.data.NodeSequenceNumberRow;
 import no.nordicsemi.android.mesh.logger.MeshLogger;
 import android.util.SparseIntArray;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -274,6 +275,10 @@ abstract class MeshNetworkDb extends RoomDatabase {
 
     List<ProvisionedMeshNode> getNodes(@NonNull final ProvisionedMeshNodesDao dao, @NonNull final String meshUuid) throws ExecutionException, InterruptedException {
         return databaseWriteExecutor.submit(() -> dao.getNodes(meshUuid)).get();
+    }
+
+    List<NodeSequenceNumberRow> getSequenceNumberForNodes(@NonNull final ProvisionedMeshNodesDao dao, @NonNull final String meshUuid) throws ExecutionException, InterruptedException {
+        return databaseWriteExecutor.submit(() -> dao.getSequenceNumbersForNodes(meshUuid)).get();
     }
 
     void insert(@NonNull final ProvisionedMeshNodeDao dao, @NonNull final ProvisionedMeshNode node) {

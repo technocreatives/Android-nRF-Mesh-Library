@@ -30,4 +30,7 @@ public interface ProvisionedMeshNodesDao {
 
     @Query("DELETE from nodes")
     void deleteAll();
+
+    @Query("SELECT * from nodes WHERE mesh_uuid IS :meshUuid")
+    List<NodeSequenceNumberRow> getSequenceNumbersForNodes(final String meshUuid);
 }
